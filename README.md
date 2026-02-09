@@ -65,8 +65,8 @@ Takalo-1/
 
 | Nom | Numéro ETU |
 |-----|------------|
+| Aiky | 3936 |
 | Nekena | 4193 |
-| Aky | 3936 |
 | Toavina | 4235 |
 
 ## 📄 Licence
