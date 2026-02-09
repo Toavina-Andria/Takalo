@@ -10,7 +10,8 @@
 - Création des données de test (OK)
 
 ### Flight (BACK-END)
-- Création des modèles ( class )
+- Création des modèles ( class ) (OK)
+
 - Création des fonctions :
     - création des compte 
     - insertion des objets
