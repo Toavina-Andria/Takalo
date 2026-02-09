@@ -2,13 +2,12 @@
 
 ### Base de données
  - Création des tables
-    - user
-    - catégories
-    - MouvementTakalo
-    - images
-    - statut
-    - historique propiétaires
-- Création des données de test
+    - user (OK)
+    - catégories (OK)
+    - MouvementTakalo (OK)
+    - images (OK)
+    - historique propiétaires (OK)
+- Création des données de test (OK)
 
 ### Flight (BACK-END)
 - Création des modèles ( class )
