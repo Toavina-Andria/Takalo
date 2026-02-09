@@ -12,10 +12,10 @@
     <?php foreach ($exchanges as $exchange) : ?>
         <tr>
             <td><?= $exchange['id'] ?></td>
-            <td><?= $exchange['object1'] ?></td>
-            <td><?= $exchange['object2'] ?></td>
-            <td><?= $exchange['user1'] ?></td>
-            <td><?= $exchange['user2'] ?></td>
+            <td><?= $exchange['object1_id'] ?></td>
+            <td><?= $exchange['object2_id'] ?></td>
+            <td><?= $exchange['user1_id'] ?></td>
+            <td><?= $exchange['user2_id'] ?></td>
             <td><?= $exchange['status'] ?></td>
         </tr>
     <?php endforeach; ?>

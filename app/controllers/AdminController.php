@@ -17,9 +17,10 @@ class AdminController {
 
     public function dashboard() {
 
-        $exchanges = $this->adminService->getexchages();
+        $exchanges = $this->adminService->getAllExchanges();
 
         $this->app->render('admin/dashboard',[
+            'title' => 'Dashboard',
             'exchanges' => $exchanges
         ]);
     }
