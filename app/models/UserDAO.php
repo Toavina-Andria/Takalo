@@ -61,7 +61,30 @@ class UserDAO {
 
     public function getUserObjects($userId) {
         $db = Flight::db();
-        $stmt = $db->prepare("SELECT * FROM objects WHERE user_id = :user_id");
+        $stmt = $db->prepare("SELECT * FROM object WHERE owner_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
+
+    public function getUserStats($userId) {
+        $db = Flight::db();
+        $stmt = $db->prepare("SELECT COUNT(*) as total_objects FROM object WHERE owner_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $objects = $stmt->fetch();
+        
+        $stmt = $db->prepare("SELECT COUNT(*) as total_exchanges FROM exchange WHERE user1_id = :user_id OR user2_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $exchanges = $stmt->fetch();
+        
+        return [
+            'total_objects' => $objects['total_objects'],
+            'total_exchanges' => $exchanges['total_exchanges']
+        ];
+    }
+
+    public function getUserExchanges($userId) {
+        $db = Flight::db();
+        $stmt = $db->prepare("SELECT * FROM exchange WHERE user1_id = :user_id OR user2_id = :user_id");
         $stmt->execute(['user_id' => $userId]);
         return $stmt->fetchAll();
     }
