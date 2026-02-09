@@ -53,11 +53,24 @@ php -S localhost:8000
 ```
 Takalo-1/
 ├── app/
+│   ├── cache/
+│   ├── commands/
+│   ├── config/
 │   ├── controllers/
+│   ├── log/
+│   ├── middlewares/
 │   ├── models/
+│   ├── utils/
 │   └── views/
 ├── public/
-├── config/
+│   ├── .htaccess
+│   └── index.php
+├── vendor/
+├── composer.json
+├── composer.lock
+├── docker-compose.yml
+├── Vagrantfile
+├── runway
 └── README.md
 ```
 
