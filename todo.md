@@ -12,20 +12,20 @@
 ### Flight (BACK-END)
 - Création des modèles ( class ) (OK)
 
-- Création des fonctions :
-    - création des compte 
-    - insertion des objets
-    - suppression des objets
-    - liste des objets
-    - update objets
-    - Mouvement des objets ( update des informations)
-    - historiques des objets ( lister - nouvelles historiques)
-    - acceptation échange
-    - refuser échange 
-    - demande d'échange 
-    - annulation de demande
-    - échange effectuer
-    - vérification log in
+- Création des fonctions (OK) :
+    - création des compte (OK)
+    - insertion des objets (OK)
+    - suppression des objets (OK)
+    - liste des objets (OK)
+    - update objets (OK)
+    - Mouvement des objets ( update des informations) (OK)
+    - historiques des objets ( lister - nouvelles historiques) (OK)
+    - acceptation échange (OK)
+    - refuser échange (OK)
+    - demande d'échange (OK)
+    - annulation de demande (OK)
+    - échange effectuer (OK)
+    - vérification log in (OK)
 - Création des controllers ( page )
     - login
     - admin
