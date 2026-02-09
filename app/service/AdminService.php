@@ -17,7 +17,6 @@ class AdminService {
             [ 'id' => 3, 'object1' => 3,'object2' => 30, 'user1' => 2, 'user2' => 3, 'status' => 'pending' ],
 
         ];
-        $this->app->json($exechanges, 200, true, 'utf-8', JSON_PRETTY_PRINT);
         return $exechanges;
     }
 }
