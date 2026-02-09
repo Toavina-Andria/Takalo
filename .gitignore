@@ -4,3 +4,15 @@ app/config/config.php
 composer.lock
 .vagrant/
 .runway-creds.json
+todo.txt
+.idea/
+*.log
+*.cache
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+*.env
+.env.*
+*.pem
