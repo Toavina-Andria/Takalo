@@ -7,7 +7,7 @@
     - MouvementTakalo (OK)
     - images (OK)
     - historique propiétaires (OK)
-- Création des données de test
+- Création des données de test (OK)
 
 ### Flight (BACK-END)
 - Création des modèles ( class )
