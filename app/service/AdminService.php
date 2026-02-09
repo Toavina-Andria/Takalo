@@ -8,9 +8,7 @@ class AdminService {
 
     protected Engine $app;
 
-    public function __construct($app) {
-        $this->app = $app;
-    }
+
 
     public function getexchages() {
         $exechanges = [
