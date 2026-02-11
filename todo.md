@@ -27,15 +27,18 @@
     - échange effectuer (OK)
     - vérification log in (OK)
 - Création des controllers ( page )
-    - login
+    - login (ok)
     - admin
-        - dashboard ( stats - updater )
+        - dashboard ( stats (ok) - updater )
+        - filte echange
+        - fitre user
+        - historique des échanges objets
     - users 
         - acceuil 
-        - list objet 
+        - list objet (ok)
         - échanges
-        - tout les objets
-    - barre de recherches
+        - tout les objets (ok)
+    - barre de recherches (ok)
 - Ajout des routers
 
 
