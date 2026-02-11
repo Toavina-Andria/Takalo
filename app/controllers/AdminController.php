@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\service\AdminService;
+use app\services\AdminService;
 
 use flight\Engine;
 
@@ -12,7 +12,7 @@ class AdminController {
     protected AdminService $adminService;
     public function __construct($app) {
         $this->app = $app;
-        $this->adminService = new AdminService();
+        $this->adminService = new AdminService($app);
     }
 
     public function dashboard() {
