@@ -1,67 +1,76 @@
 <?php
 namespace app\controllers;
 
-use app\repositories\MessageRepository;
 use Flight;
 use Throwable;
 use app\repositories\UserRepository;
 use app\services\Validator;
 use app\services\UserService;
 
-class AuthController {
+class AuthController
+{
 
-  public function showRegister() {
-    Flight::render('auth/register', [
-      'values' => ['username'=>'','email'=>''],
-      'errors' => ['username'=>'','email'=>'','password'=>''],
+  private $viewRegister = 'auth/register';
+  public function showRegister()
+  {
+    Flight::render($this->viewRegister, [
+      'values' => ['username' => '', 'email' => ''],
+      'errors' => ['username' => '', 'email' => '', 'password' => ''],
       'success' => false
     ]);
   }
 
-  public function showAllUsers(){
+  public function showAllUsers()
+  {
     $repo = null;
-    $list_user = null;
 
-    try{
+    try {
       $pdo = Flight::db();
       $repo = new UserRepository($pdo);
-    }catch (Throwable $dbError){
+    } catch (Throwable $dbError) {
+      //
     }
 
-    $list_user = $repo->getAllUser();
 
-    return $list_user;
+    return $repo->getAllUser();
   }
 
-  public function verificationUser($email) {
+  public function verificationUser($email)
+  {
     $repo = null;
-      try {
-        $pdo = Flight::db();
-        $repo = new UserRepository($pdo);
-      } catch (Throwable $dbError) { }
+    try {
+      $pdo = Flight::db();
+      $repo = new UserRepository($pdo);
+    } catch (Throwable $dbError) {
+      //
+    }
 
-      if($repo && $repo->emailExists($email)) {
-        return true;
-      }
+    if ($repo && $repo->emailExists($email)) {
+      return true;
+    }
 
-      return false;
+    return false;
   }
 
-  public function getUser($email) {
+  public function getUser($email)
+  {
     $repo = null;
-      try {
-        $pdo = Flight::db();
-        $repo = new UserRepository($pdo);
-      } catch (Throwable $dbError) { }
+    try {
+      $pdo = Flight::db();
+      $repo = new UserRepository($pdo);
+    } catch (Throwable $dbError) {
+      //
+    }
 
-      if($repo) {
-        return $repo->getUserByEmail($email);
-      }
+    if ($repo) {
+      return $repo->getUserByEmail($email);
+    }
 
-      return null;
+    return null;
   }
 
-  public function validateRegisterAjax() {
+  public function validateRegisterAjax()
+  {
     header('Content-Type: application/json; charset=utf-8');
 
     try {
@@ -100,10 +109,11 @@ class AuthController {
     }
   }
 
-  public function postRegister() {
-    $pdo  = Flight::db();
+  public function postRegister()
+  {
+    $pdo = Flight::db();
     $repo = new UserRepository($pdo);
-    $svc  = new UserService($repo);
+    $svc = new UserService($repo);
 
     $req = Flight::request();
 
@@ -116,20 +126,46 @@ class AuthController {
     $res = Validator::validateRegister($input, $repo);
 
     if ($res['ok']) {
-      $svc->register($res['values'], (string)$input['password']);
-      Flight::render('auth/register', [
-        'values' => ['username'=>'','email'=>''],
-        'errors' => ['username'=>'','email'=>'','password'=>''],
+      $svc->register($res['values'], (string) $input['password']);
+      Flight::render($this->viewRegister, [
+        'values' => ['username' => '', 'email' => ''],
+        'errors' => ['username' => '', 'email' => '', 'password' => ''],
         'success' => true
       ]);
       return;
     }
 
-    Flight::render('auth/register', [
+    Flight::render($this->viewRegister, [
       'values' => $res['values'],
       'errors' => $res['errors'],
       'success' => false
     ]);
-    
+
   }
+
+  public static function showLogin()
+  {
+    Flight::render('auth/login', null);
+  }
+
+  public static function postLogin()
+  {
+    $app = Flight::app();
+    $req = $app->request();
+    $email = $req->data->email;
+
+    $authController = new AuthController();
+
+    if ($authController->verificationUser($email)) {
+      $user = $authController->getUser($email);
+      $_SESSION['user_connected'] = $user;
+      $app->redirect('/listObjects');
+    } else {
+      $app->render('auth/login', [
+        'error' => 'Email ou mot de passe incorrect.'
+      ]);
+    }
+  }
+
+
 }

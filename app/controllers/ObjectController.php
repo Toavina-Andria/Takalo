@@ -89,4 +89,50 @@ class ObjectController {
 
         return $object_id;
     }
+
+    /**
+     * Afficher la liste des objets (route)
+     */
+    public static function listObjects() {
+        $objectController = new ObjectController();
+        $list_object = $objectController->showAllObject();
+
+        Flight::view()->set('list_object', $list_object);
+        Flight::render('object/listObject');
+    }
+
+    /**
+     * Afficher le formulaire d'insertion
+     */
+    public static function showInsertForm() {
+        $categoryController = new \app\controllers\CategoryController();
+        $categoryController->showInsertObjectForm();
+    }
+
+    /**
+     * Traiter la création d'un objet
+     */
+    public static function postCreateObject() {
+        $imagePath = null;
+
+        if (!empty($_FILES['image']['name'])) {
+            $filename = time() . '_' . $_FILES['image']['name'];
+            $target = 'uploads/' . $filename;
+            move_uploaded_file($_FILES['image']['tmp_name'], $target);
+            $imagePath = '/' . $target;
+        }
+
+        $controller = new ObjectController();
+
+        $controller->createObject(
+            $_POST['name'],
+            $_POST['description'],
+            $_POST['category_id'],
+            $_POST['price'],
+            $imagePath,
+            $_SESSION['user_connected']['id']
+        );
+
+        Flight::app()->redirect('/listObjects');
+    }
 }
