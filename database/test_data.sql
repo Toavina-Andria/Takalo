@@ -9,7 +9,7 @@ USE takalo;
 -- ============================================
 
 INSERT INTO users (username, email, password) VALUES
-('alice_durand', 'alice@takalo.local', '$2y$10$9h5K4zJ8mL2p1xQ7nR4vK.wH8e6F3gD9cJ5bV2xY1sZ8aL7m4oU9K'),
+('rasoa', 'rasoa@gmail.com', '12345678');
 ('bob_martin', 'bob@takalo.local', '$2y$10$9h5K4zJ8mL2p1xQ7nR4vK.wH8e6F3gD9cJ5bV2xY1sZ8aL7m4oU9K'),
 ('carlos_lopez', 'carlos@takalo.local', '$2y$10$9h5K4zJ8mL2p1xQ7nR4vK.wH8e6F3gD9cJ5bV2xY1sZ8aL7m4oU9K'),
 ('diana_cohen', 'diana@takalo.local', '$2y$10$9h5K4zJ8mL2p1xQ7nR4vK.wH8e6F3gD9cJ5bV2xY1sZ8aL7m4oU9K'),

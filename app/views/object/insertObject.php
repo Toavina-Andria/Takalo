@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un objet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-box-seam"></i> Nouvel objet
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form action="/object/create" method="POST" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Catégorie</label>
+                            <select name="category_id" class="form-select" required>
+                                <option value="">-- Choisir --</option>
+                                <?php
+                                $categories = Flight::view()->get('categories') ?? [];
+                                foreach ($categories as $cat): ?>
+                                    <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Prix (Ar)</label>
+                            <input type="number" name="price" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Image
+                                <i class="bi bi-image ms-1"></i>
+                            </label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/listObjects" class="btn btn-outline-secondary">
+                                Annuler
+                            </a>
+                            <button class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Enregistrer
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
