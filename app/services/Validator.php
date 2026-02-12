@@ -3,24 +3,28 @@ namespace app\services;
 
 use app\repositories\UserRepository;
 
-class Validator {
+class Validator
+{
 
-  public static function normalizeTelephone($tel) {
-    return preg_replace('/\s+/', '', trim((string)$tel));
+  public static function normalizeTelephone($tel)
+  {
+    return preg_replace('/\s+/', '', trim((string) $tel));
   }
 
-  public static function validateRegister(array $input, UserRepository $repo = null) {
+  public static function validateRegister(array $input, UserRepository $repo)
+  {
     $errors = [
-      'username' => '','email' => '',
-      'password' => '', 
+      'username' => '',
+      'email' => '',
+      'password' => ''
     ];
 
     $values = [
-      'username' => trim((string)($input['username'] ?? '')),
-      'email' => trim((string)($input['email'] ?? '')),
+      'username' => trim((string) ($input['username'] ?? '')),
+      'email' => trim((string) ($input['email'] ?? '')),
     ];
 
-    $password = (string)($input['password'] ?? '');
+    $password = (string) ($input['password'] ?? '');
 
     if (mb_strlen($values['username']) < 2) {
       $errors['username'] = "Le nom doit contenir au moins 2 caractères.";
@@ -42,11 +46,11 @@ class Validator {
     }
 
     $ok = true;
-    foreach ($errors as $m) { 
+    foreach ($errors as $m) {
       if ($m !== '') {
-        $ok = false; 
-        break; 
-      } 
+        $ok = false;
+        break;
+      }
     }
 
     return ['ok' => $ok, 'errors' => $errors, 'values' => $values];
@@ -54,4 +58,3 @@ class Validator {
 
 }
 
-?>
