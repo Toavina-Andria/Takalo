@@ -56,5 +56,8 @@ CREATE TABLE IF NOT EXISTS image(
     FOREIGN KEY (object_id) REFERENCES object(id)
 );
 
+ALTER TABLE object
+MODIFY price DOUBLE UNSIGNED;
+
 
 
