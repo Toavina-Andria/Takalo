@@ -21,4 +21,7 @@ class ExchangeService
     //TODO
     }
 
+    public function refuseEchange($exangeid){
+    //TODO
+    }
 }
