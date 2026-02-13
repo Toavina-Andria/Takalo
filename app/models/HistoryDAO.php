@@ -12,7 +12,7 @@ class HistoryDAO {
 
     public static function addHistoryEntry($oldUserId, $oldObjectId) {
         $db = Flight::db();
-        $stmt = $db->prepare("INSERT INTO history (old_user_id, old_object_id) VALUES (:old_user_id, :old_object_id)");
+        $stmt = $db->prepare("INSERT INTO history (old_user_id, old_object_id, created_at) VALUES (:old_user_id, :old_object_id, NOW())");
         return $stmt->execute([
             'old_user_id' => $oldUserId,
             'old_object_id' => $oldObjectId
