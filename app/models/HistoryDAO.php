@@ -3,34 +3,32 @@ namespace App\Models;
 use Flight;
 
 class HistoryDAO {
-    public static function getHistoryByUserId($userId) {
+    public static function getHistoryByUserId($oldUserId) {
         $db = Flight::db();
-        $stmt = $db->prepare("SELECT * FROM history WHERE user_id = :user_id ORDER BY created_at DESC");
-        $stmt->execute(['user_id' => $userId]);
+        $stmt = $db->prepare("SELECT * FROM history WHERE old_user_id = :old_user_id ORDER BY created_at DESC");
+        $stmt->execute(['old_user_id' => $oldUserId]);
         return $stmt->fetchAll();
     }
 
-    public static function addHistoryEntry($userId, $objectId, $action, $details = null) {
+    public static function addHistoryEntry($oldUserId, $oldObjectId) {
         $db = Flight::db();
-        $stmt = $db->prepare("INSERT INTO history (user_id, object_id, action, details) VALUES (:user_id, :object_id, :action, :details)");
+        $stmt = $db->prepare("INSERT INTO history (old_user_id, old_object_id) VALUES (:old_user_id, :old_object_id)");
         return $stmt->execute([
-            'user_id' => $userId,
-            'object_id' => $objectId,
-            'action' => $action,
-            'details' => $details
+            'old_user_id' => $oldUserId,
+            'old_object_id' => $oldObjectId
         ]);
     }
 
-    public static function deleteHistoryByUserId($userId) {
+    public static function deleteHistoryByUserId($oldUserId) {
         $db = Flight::db();
-        $stmt = $db->prepare("DELETE FROM history WHERE user_id = :user_id");
-        return $stmt->execute(['user_id' => $userId]);
+        $stmt = $db->prepare("DELETE FROM history WHERE old_user_id = :old_user_id");
+        return $stmt->execute(['old_user_id' => $oldUserId]);
     }
 
-    public static function getHistoryByObjectId($objectId) {
+    public static function getHistoryByObjectId($oldObjectId) {
         $db = Flight::db();
-        $stmt = $db->prepare("SELECT * FROM history WHERE object_id = :object_id ORDER BY created_at DESC");
-        $stmt->execute(['object_id' => $objectId]);
+        $stmt = $db->prepare("SELECT * FROM history WHERE old_object_id = :old_object_id ORDER BY created_at DESC");
+        $stmt->execute(['old_object_id' => $oldObjectId]);
         return $stmt->fetchAll();
     }
 
@@ -40,43 +38,16 @@ class HistoryDAO {
         return $stmt->fetchAll();
     }
 
-    public static function getHistoryByUserIdAndObjectId($userId, $objectId) {
+    public static function getHistoryByUserIdAndObjectId($oldUserId, $oldObjectId) {
         $db = Flight::db();
-        $stmt = $db->prepare("SELECT * FROM history WHERE user_id = :user_id AND object_id = :object_id ORDER BY created_at DESC");
+        $stmt = $db->prepare("SELECT * FROM history WHERE old_user_id = :old_user_id AND old_object_id = :old_object_id ORDER BY created_at DESC");
         $stmt->execute([
-            'user_id' => $userId,
-            'object_id' => $objectId
+            'old_user_id' => $oldUserId,
+            'old_object_id' => $oldObjectId
         ]);
         return $stmt->fetchAll();
     }
 
-    public static function addObjectCreationHistory($userId, $objectId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'object_created');
-    }
-
-    public static function addObjectDeletionHistory($userId, $objectId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'object_deleted');
-    }
-
-    public static function addObjectUpdateHistory($userId, $objectId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'object_updated');
-    }
-
-    public static function addExchangeRequestHistory($userId, $objectId, $exchangeId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'exchange_requested', 'exchange_id:' . $exchangeId);
-    }
-
-    public static function addExchangeAcceptedHistory($userId, $objectId, $exchangeId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'exchange_accepted', 'exchange_id:' . $exchangeId);
-    }
-
-    public static function addExchangeRejectedHistory($userId, $objectId, $exchangeId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'exchange_rejected', 'exchange_id:' . $exchangeId);
-    }
-
-    public static function addExchangeCancelledHistory($userId, $objectId, $exchangeId) {
-        return HistoryDAO::addHistoryEntry($userId, $objectId, 'exchange_cancelled', 'exchange_id:' . $exchangeId);
-    }
 
     public static function getRecentHistory($limit = 10) {
         $db = Flight::db();
