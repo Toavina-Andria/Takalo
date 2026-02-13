@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Ajouter un objet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-</head>
-
-<body class="bg-light">
+<?php
+  $pageTitle = 'Ajouter un objet';
+  $bodyClass = 'bg-light';
+?>
+<?php include __DIR__ . '/../header.php'; ?>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -79,5 +72,4 @@
     </div>
 </div>
 
-</body>
-</html>
+<?php include __DIR__ . '/../footer.php'; ?>

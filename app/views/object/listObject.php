@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des objets</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-
-    <style>
+<?php $pageTitle = 'Liste des objets'; ?>
+<?php include __DIR__ . '/../header.php'; ?>
+<style>
         body {
             background-color: #f5f7fb;
             font-family: 'Segoe UI', sans-serif;
@@ -50,10 +43,7 @@
             text-decoration: none;
             color: inherit;
         }
-    </style>
-</head>
-
-<body>
+</style>
 
 <div class="container page-wrapper">
     <div class="row justify-content-center">
@@ -131,5 +121,4 @@
     </div>
 </div>
 
-</body>
-</html>
+<?php include __DIR__ . '/../footer.php'; ?>

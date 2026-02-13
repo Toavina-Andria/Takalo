@@ -1,17 +1,11 @@
 <?php
   function e($v){ return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
   $error = Flight::view()->get('error') ?? null;
+  $pageTitle = 'Connexion';
+  $bodyClass = 'bg-light';
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Connexion</title>
-  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-</head>
-<body class="bg-light">
-  <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+<?php include __DIR__ . '/../header.php'; ?>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
     <div class="row w-100 justify-content-center">
       <div class="col-12 col-sm-8 col-md-6 col-lg-4">
         <div class="card shadow-lg border-0 rounded-4">
@@ -76,8 +70,6 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <script src="/assets/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+
+<?php include __DIR__ . '/../footer.php'; ?>
