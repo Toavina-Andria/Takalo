@@ -45,8 +45,10 @@ CREATE TABLE IF NOT EXISTS exchange (
 CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     old_user_id INT,
+    old_object_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (old_user_id) REFERENCES users(id)
+    FOREIGN KEY (old_user_id) REFERENCES users(id),
+    FOREIGN KEY (old_object_id) REFERENCES object(id)
 );
 
 CREATE TABLE IF NOT EXISTS image(
