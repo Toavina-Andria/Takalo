@@ -21,6 +21,8 @@ class AdminController {
 
         $this->app->render('admin/dashboard',[
             'title' => 'Dashboard',
+            'pageTitle' => 'Admin Dashboard',
+            'bodyClass' => '',
             'exchanges' => $exchanges
         ]);
     }

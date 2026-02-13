@@ -3,7 +3,7 @@
   function cls_invalid($errors, $field){ return ($errors[$field] ?? '') !== '' ? 'is-invalid' : ''; }
   $pageTitle = 'Inscription';
   $bodyClass = 'bg-light';
-  $additionalJS = ['/assets/js/validation-ajax.js'];
+  $additionalJS = [$base_path . '/assets/js/validation-ajax.js'];
 ?>
 <?php include __DIR__ . '/../header.php'; ?>
 <div class="container min-vh-100 d-flex align-items-center justify-content-center py-4">

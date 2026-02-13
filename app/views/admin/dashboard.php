@@ -1,14 +1,12 @@
-<?php $pageTitle = 'Admin Dashboard'; ?>
 <?php include __DIR__ . '/../header.php'; ?>
 
-    <div class="container-fluid py-4">
+<div class="container-fluid py-4">
         <!-- Header -->
         <div class="dashboard-header">
             <h1>Admin Dashboard</h1>
             <p>Welcome to your Takalo exchange management system</p>
         </div>
 
-        <!-- Statistics Cards -->
         <div class="row g-4">
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card">
@@ -67,7 +65,6 @@
             </div>
         </div>
 
-        <!-- Exchanges Table -->
         <div class="content-card">
             <h2 class="content-card-title">All Exchanges</h2>
             <div class="table-responsive">

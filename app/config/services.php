@@ -78,7 +78,17 @@ if (Debugger::$showBar === true && php_sapi_name() !== 'cli') {
  *           Database Service Setup           *
  **********************************************/
 // Uncomment and configure the following for your database:
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+$basePath = dirname($scriptName);
+if ($basePath === '/' || $basePath === '\\') {
+    $basePath = '';
+}
+$app->set('base_path', $basePath);
 
+// Make base_path available as a global variable for all views
+Flight::view()->set('base_path', $basePath);
+
+	
 // MySQL Example:
 $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
 

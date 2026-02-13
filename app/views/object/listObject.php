@@ -86,7 +86,7 @@
                                     <li class="list-group-item d-flex align-items-center gap-3 object-item">
                                         
                                         <img
-                                            src="<?= $obj['image_url'] ?? '/assets/img/no-image.png' ?>"
+                                            src="<?= $obj['image_url'] ?? $base_path . '/assets/img/no-image.png' ?>"
                                             class="object-img"
                                             alt="objet"
                                         >
