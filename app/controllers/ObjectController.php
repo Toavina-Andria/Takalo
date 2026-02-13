@@ -4,6 +4,7 @@ namespace app\controllers;
 use Flight;
 use Throwable;
 use app\repositories\ObjectRepository;
+use app\services\ObjectService;
 
 class ObjectController {
 
@@ -112,75 +113,30 @@ class ObjectController {
     /**
      * Traiter la création d'un objet
      */
-    public function postCreateObject()
-    {
-        try {
-
-            if (!isset($_SESSION['user'])) {
-                $_SESSION['user'] = [
-                    'id' => 1,
-                    'username' => 'testuser',
-                    'email' => 'test@test.com'
-                ];
-            }
-
-            $pdo = \Flight::db();
-            $repo = new \app\repositories\ObjectRepository($pdo);
-
-            $name = trim($_POST['name'] ?? '');
-            $description = trim($_POST['description'] ?? '');
-            $category_id = (int) ($_POST['category_id'] ?? 0);
-            $price = (float) ($_POST['price'] ?? 0);
-            $owner_id = $_SESSION['user']['id'];
-
-            if ($name === '' || $category_id <= 0) {
-                die("Données invalides.");
-            }
-
-            if ($price < 0) {
-                die("Le prix ne peut pas être négatif.");
-            }
-
-            $imageUrl = null;
-
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-
-                $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
-                if (!in_array($_FILES['image']['type'], $allowedTypes)) {
-                    die("Type de fichier non autorisé.");
-                }
-
-                $uploadDir = __DIR__ . '/../../public/uploads/';
-
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
-                }
-
-                $fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $fileName = uniqid() . '.' . $fileExtension;
-
-                $targetPath = $uploadDir . $fileName;
-
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    $imageUrl = '/uploads/' . $fileName;
-                }
-            }
-
-            $repo->insertObject(
-                $name,
-                $description,
-                $category_id,
-                $price,
-                $imageUrl,
-                $owner_id
-            );
-
-            Flight::redirect('/listObjects');
-
-        } catch (\Throwable $e) {
-            die("Erreur : " . $e->getMessage());
+   public function postCreateObject(){
+    try{
+        if(!isset($_SESSION['user'])){
+            $_SESSION['user'] = [
+                'id' => 1,
+                'username' => 'testuser',
+                'email' => 'test@test.com'
+            ];
         }
+        $data = [
+            'name' => trim($_POST['name'] ??''),
+            'description' => trim($_POST['description'] ??''),
+            'category_id' => (int) ($_POST['category_id'] ?? 0),
+            'price' => (float) ($_POST['price'] ?? 0),
+            'owner_id' => $_SESSION['user']['id'],
+            'image' => $_FILES['image'] ?? null
+        ];
+
+        $service = new \app\services\ObjectService(\Flight::db());
+        $service->createObject($data);
+
+        Flight::redirect('/listObjects');
+    }catch(\Throwable $e){
+        die("Erreur : " . $e->getMessage());
     }
-    
+   } 
 }
