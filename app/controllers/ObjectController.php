@@ -94,11 +94,58 @@ class ObjectController {
      * Afficher la liste des objets (route)
      */
     public static function listObjects() {
+        // Vérifier l'authentification
+        if (!isset($_SESSION['user_connected'])) {
+            Flight::redirect('/auth/login');
+            return;
+        }
+
         $objectController = new ObjectController();
         $list_object = $objectController->showAllObject();
 
+        // Charger les catégories si disponible
+        $categories = [];
+        try {
+            $pdo = Flight::db();
+            $categoryRepo = new \app\repositories\CategoryRepository($pdo);
+            $categories = $categoryRepo->getAllCategories();
+        } catch (Throwable $e) {
+            // Ignore errors
+        }
+
         Flight::view()->set('list_object', $list_object);
-        Flight::render('object/listObject');
+        Flight::view()->set('categories', $categories);
+        Flight::render('object/products');
+    }
+
+    /**
+     * Afficher le détail d'un objet
+     */
+    public static function showDetail($id) {
+        // Vérifier l'authentification
+        if (!isset($_SESSION['user_connected'])) {
+            Flight::redirect('/auth/login');
+            return;
+        }
+
+        $objectRepo = null;
+        try {
+            $pdo = Flight::db();
+            $objectRepo = new ObjectRepository($pdo);
+        } catch (Throwable $e) {
+            Flight::render('error', ['message' => 'Erreur de connexion à la base de données']);
+            return;
+        }
+
+        $object = $objectRepo->getObjectById($id);
+        
+        if (!$object) {
+            Flight::render('error', ['message' => 'Objet non trouvé']);
+            return;
+        }
+
+        Flight::view()->set('object', $object);
+        Flight::render('object/detail');
     }
 
     /**

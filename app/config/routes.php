@@ -14,25 +14,30 @@ use app\controllers\AdminController;
 
 $router->group('', function (Router $router) {
 
-    // traitement d' Inscription
-    $router->get('/', [AuthController::class, 'showRegister']);
-    $router->post('/register', [AuthController::class, 'postRegister']);
-    $router->post('/api/validate/register', [AuthController::class, 'validateRegisterAjax']);
+    // Redirect root to login page (login-first approach)
+    $router->get('/', function() {
+        Flight::redirect('/auth/login');
+    });
 
-    // traitement de Login
+    // traitement de Login (seule page publique)
     $router->group('/auth', function () use ($router) {
         $router->get('/login', [AuthController::class, 'showLogin']);
         $router->post('/login', [AuthController::class, 'postLogin']);
+        $router->get('/logout', [AuthController::class, 'logout']);
     });
 
-    $router->get('/listObjects', [ObjectController::class, 'listObjects']);
+    // Protected routes - require authentication
+    $router->get('/objects', [ObjectController::class, 'listObjects']);
 
     $router->group('/object', function () use ($router) {
         // Formulaire GET pour insérer un objet
         $router->get('/insertObject', [ObjectController::class, 'showInsertForm']);
         // POST pour créer un objet
         $router->post('/create', [ObjectController::class, 'postCreateObject']);
+        $router->get('/detail/@id', [ObjectController::class, 'showDetail']);
     });
+    
+    // Admin dashboard - restricted to admin only
     $router->get('/admin', [AdminController::class, 'dashboard']);
 
 

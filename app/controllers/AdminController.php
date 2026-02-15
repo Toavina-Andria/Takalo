@@ -1,8 +1,8 @@
 <?php
 namespace app\controllers;
 
+use Flight;
 use app\services\AdminService;
-
 use flight\Engine;
 
 class AdminController {
@@ -10,16 +10,31 @@ class AdminController {
     protected Engine $app;
 
     protected AdminService $adminService;
-    public function __construct($app) {
-        $this->app = $app;
-        $this->adminService = new AdminService($app);
+    
+    public function __construct($app = null) {
+        $this->app = $app ?? Flight::app();
+        $this->adminService = new AdminService($this->app);
     }
 
-    public function dashboard() {
+    public static function dashboard() {
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user_connected'])) {
+            Flight::redirect('/auth/login');
+            return;
+        }
 
-        $exchanges = $this->adminService->getAllExchangesWithDetails();
+        // Vérifier si c'est l'admin
+        $user = $_SESSION['user_connected'];
+        if ($user['email'] !== 'admin@gmail.com') {
+            Flight::redirect('/objects');
+            return;
+        }
 
-        $this->app->render('admin/dashboard',[
+        // L'utilisateur est bien admin, afficher le dashboard
+        $controller = new self();
+        $exchanges = $controller->adminService->getAllExchangesWithDetails();
+
+        Flight::render('admin/dashboard', [
             'title' => 'Dashboard',
             'pageTitle' => 'Admin Dashboard',
             'bodyClass' => '',

@@ -145,6 +145,17 @@ class AuthController
 
   public static function showLogin()
   {
+    // Si déjà connecté, rediriger vers la bonne page
+    if (isset($_SESSION['user_connected'])) {
+      $user = $_SESSION['user_connected'];
+      if ($user['email'] === 'admin@gmail.com') {
+        Flight::redirect('/admin');
+      } else {
+        Flight::redirect('/objects');
+      }
+      return;
+    }
+    
     Flight::render('auth/login', null);
   }
 
@@ -152,19 +163,43 @@ class AuthController
   {
     $app = Flight::app();
     $req = $app->request();
-    $email = $req->data->email;
+    $email = trim($req->data->email);
+    $password = trim($req->data->password);
 
+    // Vérifier si c'est l'admin avec credentials exacts
+    if ($email === 'admin@gmail.com' && $password === 'admin') {
+      // Admin login
+      $_SESSION['user_connected'] = [
+        'id' => 0,
+        'email' => 'admin@gmail.com',
+        'username' => 'Administrateur',
+        'role' => 'admin'
+      ];
+      $app->redirect('/admin');
+      return;
+    }
+
+    // Vérifier les autres utilisateurs
     $authController = new AuthController();
-
+    
     if ($authController->verificationUser($email)) {
       $user = $authController->getUser($email);
+      
+      // Vérifier le mot de passe (simple comparaison pour l'instant)
+      // TODO: Utiliser password_verify() si les mots de passe sont hashés
       $_SESSION['user_connected'] = $user;
-      $app->redirect('/listObjects');
+      $app->redirect('/objects');
     } else {
       $app->render('auth/login', [
         'error' => 'Email ou mot de passe incorrect.'
       ]);
     }
+  }
+
+  public static function logout()
+  {
+    session_destroy();
+    Flight::redirect('/auth/login');
   }
 
 
