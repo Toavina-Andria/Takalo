@@ -47,7 +47,38 @@ class ObjectRepository {
         $st->execute([$object_id, $url]);
     }
     
+    public function findById(int $id): ?array {
 
+        $sql = "
+            SELECT 
+                o.*,
+                c.name AS category_name,
+                u.username AS owner_username
+            FROM object o
+            LEFT JOIN category c ON o.category_id = c.id
+            LEFT JOIN users u ON o.owner_id = u.id
+            WHERE o.id = :id
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+
+        $object = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$object) {
+            return null;
+        }
+
+        // Récupération des images
+        $imgStmt = $this->pdo->prepare("
+            SELECT url FROM image WHERE object_id = :id
+        ");
+        $imgStmt->execute(['id' => $id]);
+
+        $object['images'] = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        return $object;
+    }
 }
 
 ?>

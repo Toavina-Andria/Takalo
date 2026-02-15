@@ -7,6 +7,8 @@ use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
 use app\controllers\AdminController;
+use app\controllers\ObjectDetailController;
+
 /**
  * @var Router $router
  * @var Engine $app
@@ -28,10 +30,9 @@ $router->group('', function (Router $router) {
     $router->get('/listObjects', [ObjectController::class, 'listObjects']);
 
     $router->group('/object', function () use ($router) {
-        // Formulaire GET pour insérer un objet
         $router->get('/insertObject', [ObjectController::class, 'showInsertForm']);
-        // POST pour créer un objet
         $router->post('/create', [ObjectController::class, 'postCreateObject']);
+        $router->get('/@id',[ObjectDetailController::class, 'showObjectDetail']);
     });
     $router->get('/admin', [AdminController::class, 'dashboard']);
 

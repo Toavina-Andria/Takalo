@@ -52,4 +52,9 @@ class ObjectService {
             $data['owner_id']
         );
     }
+
+    public function getObjectDetail(int $id): ?array {
+        return $this->repo->findById($id);
+    }
 }
+
